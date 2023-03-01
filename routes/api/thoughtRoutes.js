@@ -26,7 +26,10 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     Thought.create(req.body)
     .then((thoughts) => {
-        return res.json(thoughts);
+        User.findOneAndUpdate({ _id: req.body.userId }, { $push: {thoughts: thoughts._id} }, { new: true })
+        .then((data) => {
+            return res.json(thoughts);
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -60,6 +63,7 @@ router.delete('/:id', (req, res) => {
 });
 
 router.post('/:thoughtId/reactions', (req, res) => {
+    console.log(req.body);
     Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $addToSet: {reactions: req.body}}, { new: true})
     .then((thoughts) => {
         return res.json(thoughts);
@@ -71,7 +75,7 @@ router.post('/:thoughtId/reactions', (req, res) => {
 });
 
 router.delete('/:thoughtId/reactions/:reactionId', (req, res) => {
-    Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $pull: {reactions: req.params.reactionId}}, { new: true})
+    Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $pull: {reactions: {reactionId: req.params.reactionId}}}, { new: true})
     .then((thoughts) => {
         return res.json('Reaction Destroyed!');
       })

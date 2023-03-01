@@ -14,7 +14,7 @@ const thoughtSchema = new Schema(
                 return createdTime
             }
         },
-        thoughText: {
+        thoughtText: {
             type: String,
             required: true
         },
