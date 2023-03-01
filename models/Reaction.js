@@ -4,12 +4,12 @@ const reactionSchema = new Schema(
     {
         reactionId: {
             type: Schema.Types.ObjectId,
-            default: new Schema.Types.ObjectId //is this right?
+            default: () => new Schema.Types.ObjectId()
         },
         reactionBody: {
             type: String,
             required: true,
-            //280 max characters
+            maxLength: 280
         },
         username: {
             type: String,
@@ -30,3 +30,5 @@ const reactionSchema = new Schema(
         id: false
     }
 );
+
+module.exports = reactionSchema;
