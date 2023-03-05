@@ -63,7 +63,6 @@ router.delete('/:id', (req, res) => {
 });
 
 router.post('/:thoughtId/reactions', (req, res) => {
-    console.log(req.body);
     Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $addToSet: {reactions: req.body}}, { new: true})
     .then((thoughts) => {
         return res.json(thoughts);
